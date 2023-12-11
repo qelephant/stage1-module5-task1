@@ -10,9 +10,26 @@ import java.util.stream.Collectors;
 
 public class InterfaceCreator {
 
+    public Predicate<List<String>> isValuesStartWithUpperCase() {
+        return list -> list.stream().allMatch(s -> s.matches("[A-Z].*"));
+    }
+
+    public Consumer<List<Integer>> addEvenValuesAtTheEnd() {
+        return list -> {
+            list.addAll(list.stream().filter(i -> i % 2 == 0).toList());
+        };
+    }
+
+    public Supplier<List<String>> filterCollection(List<String> values) {
+        return () -> values.stream()
+                .filter(s -> s.matches("[A-Z].*"))
+                .filter(s -> s.endsWith("."))
+                .filter(s -> s.split("\\s+").length > 3)
+                .collect(Collectors.toList());
+    }
+
     public Function<List<String>, Map<String, Integer>> stringSize() {
         return list -> list.stream().collect(Collectors.toMap(s -> s, String::length));
-        
     }
 
     public BiFunction<List<Integer>, List<Integer>, List<Integer>> concatList() {
@@ -22,17 +39,4 @@ public class InterfaceCreator {
             return result;
         };
     }
-
-
-    public Predicate<List<String>> isValuesStartWithUpperCase() {
-        return list -> list.stream().allMatch(s -> s.matches("[A-Z].*"));
-    }
-
-
-    public Consumer<List<Integer>> addEvenValuesAtTheEnd() {
-        return list -> {
-            list.addAll(list.stream().filter(i -> i % 2 == 0).toList());
-        };
-    }
-    
 }
